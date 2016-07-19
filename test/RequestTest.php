@@ -3,7 +3,7 @@
 use Symfony\Component\HttpFoundation\Request as SymfonyRequest;
 use JoakimKejser\OAuth\OauthRequest;
 
-class RequestTest extends PHPUNIT_Framework_TestCase
+class RequestTest extends PHPUnit_Framework_TestCase
 {
 
     public function testToStringNoParameters()

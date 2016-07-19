@@ -3,7 +3,7 @@
 use JoakimKejser\OAuth\Util;
 use JoakimKejser\OAuth\OauthRequest;
 
-class UtilTest extends PHPUNIT_Framework_Testcase
+class UtilTest extends PHPUnit_Framework_TestCase
 {
     public function testUrlencodeRfc3986()
     {
