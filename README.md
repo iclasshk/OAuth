@@ -2,7 +2,7 @@
 PSR2 Compliant OAuth 1.0 library base on **Andy Smith's** OAuth library found here:
 http://oauth.googlecode.com/svn/code/php/
 
-[![Build Status](https://api.travis-ci.org/joakimkejser/OAuth.png)](https://travis-ci.org/joakimkejser/OAuth)
+[![Build Status](https://api.travis-ci.org/tyteen4a03/OAuth.png)](https://travis-ci.org/joakimkejser/OAuth)
 
 ##2-Legged OAuth Server Example
 ```php
