@@ -1,5 +1,5 @@
 <?php
-namespace JoakimKejser\OAuth\Exeption;
+namespace JoakimKejser\OAuth\Exception;
 
 use JoakimKejser\OAuth\Exception;
 

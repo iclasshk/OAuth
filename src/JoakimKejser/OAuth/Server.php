@@ -23,7 +23,7 @@ class Server
     protected $signatureMethods = array();
 
     /**
-     * @var ConsumerStoreInterace
+     * @var ConsumerStoreInterface
      */
     protected $consumerStore;
     /**
@@ -145,7 +145,7 @@ class Server
 
     /**
      * figure out the signature with some defaults
-     * @throws Exception\SignatureMethodMissing
+     * @throws Exception\SignatureMethodMissingException
      * @throws Exception\SignatureMethodNotSupportedException
      * @return SignatureMethod
      */
@@ -156,7 +156,7 @@ class Server
         if (!$signatureMethod) {
             // According to chapter 7 ("Accessing Protected Ressources") the signature-method
             // parameter is required, and we can't just fallback to PLAINTEXT
-            throw new Exception\SignatureMethodMissing();
+            throw new Exception\SignatureMethodMissingException();
         }
 
         if (!in_array($signatureMethod, array_keys($this->signatureMethods))) {
@@ -230,7 +230,7 @@ class Server
      * @throws Exception\InvalidSignatureException
      * @throws Exception\NonceAlreadyUsedException
      * @throws Exception\NonceMissingException
-     * @throws Exception\SignatureMethodMissing
+     * @throws Exception\SignatureMethodMissingException
      * @throws Exception\SignatureMethodNotSupportedException
      * @throws Exception\TimestampExpiredException
      * @throws Exception\TimestampMissingException
@@ -244,7 +244,7 @@ class Server
         $this->checkTimestamp($timestamp);
         $this->checkNonce($consumer, $nonce, $timestamp, $token);
 
-        $signatureMethod = $this->getSignatureMethod($this->request);
+        $signatureMethod = $this->getSignatureMethod();
 
         $signature = $this->request->getParameter('oauth_signature');
         $validSig = $signatureMethod->checkSignature(

@@ -2,8 +2,9 @@
 namespace JoakimKejser\OAuth\ConsumerStore;
 
 use JoakimKejser\OAuth\Consumer;
+use JoakimKejser\OAuth\ConsumerStoreInterface;
 
-class ArrayConsumerStore implements \JoakimKejser\OAuth\ConsumerStore
+class ArrayConsumerStore implements ConsumerStoreInterface
 {
     protected $consumers;
 

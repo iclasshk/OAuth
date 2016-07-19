@@ -2,11 +2,8 @@
 namespace JoakimKejser\OAuth\SignatureMethod;
 
 use JoakimKejser\OAuth\ConsumerInterface;
-use JoakimKejser\OAuth\OAuthUtil;
 use JoakimKejser\OAuth\SignatureMethod;
 use JoakimKejser\OAuth\OauthRequest;
-use JoakimKejser\OAuth\Consumer;
-use JoakimKejser\OAuth\Token;
 use JoakimKejser\OAuth\TokenInterface;
 use Joakimkejser\OAuth\Util;
 

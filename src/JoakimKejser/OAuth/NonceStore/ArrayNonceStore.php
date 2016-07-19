@@ -1,10 +1,11 @@
 <?php
 namespace JoakimKejser\OAuth\NonceStore;
 
-use JoakimKejser\OAuth\Consumer;
-use JoakimKejser\OAuth\Token;
+use JoakimKejser\OAuth\ConsumerInterface;
+use JoakimKejser\OAuth\NonceStoreInterface;
+use JoakimKejser\OAuth\TokenInterface;
 
-class ArrayNonceStore implements \JoakimKejser\OAuth\NonceStore
+class ArrayNonceStore implements NonceStoreInterface
 {
     protected $nonces;
 
@@ -13,7 +14,7 @@ class ArrayNonceStore implements \JoakimKejser\OAuth\NonceStore
         $this->nonces = $nonces;
     }
 
-    public function lookup(Consumer $consumer, $nonce, $timestamp, Token $token = null)
+    public function lookup(ConsumerInterface $consumer, $nonce, $timestamp, TokenInterface $token = null)
     {
         if (array_key_exists($nonce, $this->nonces)) {
             list($storedConsumer, $storedTimestamp, $storedToken) = $this->nonces[$nonce];

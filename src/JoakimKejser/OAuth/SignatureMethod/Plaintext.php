@@ -2,11 +2,8 @@
 namespace JoakimKejser\OAuth\SignatureMethod;
 
 use JoakimKejser\OAuth\ConsumerInterface;
-use JoakimKejser\OAuth\OAuthUtil;
 use JoakimKejser\OAuth\SignatureMethod;
 use JoakimKejser\OAuth\OauthRequest;
-use JoakimKejser\OAuth\Consumer;
-use JoakimKejser\OAuth\Token;
 use JoakimKejser\OAuth\TokenInterface;
 use Joakimkejser\OAuth\Util;
 
@@ -41,8 +38,8 @@ class Plaintext extends SignatureMethod
     public function buildSignature(OauthRequest $request, ConsumerInterface $consumer, TokenInterface $token = null)
     {
         $keyParts = array(
-            $consumer->secret,
-            ($token) ? $token->secret : ""
+            $consumer->getSecret(),
+            ($token) ? $token->getSecret() : ""
         );
 
         $keyParts = Util::urlencodeRfc3986($keyParts);

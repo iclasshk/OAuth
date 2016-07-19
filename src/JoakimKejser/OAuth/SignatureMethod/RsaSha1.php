@@ -2,13 +2,9 @@
 namespace JoakimKejser\OAuth\SignatureMethod;
 
 use JoakimKejser\OAuth\ConsumerInterface;
-use JoakimKejser\OAuth\OAuthUtil;
 use JoakimKejser\OAuth\SignatureMethod;
 use JoakimKejser\OAuth\OauthRequest;
-use JoakimKejser\OAuth\Consumer;
-use JoakimKejser\OAuth\Token;
 use JoakimKejser\OAuth\TokenInterface;
-use Joakimkejser\OAuth\Util;
 
 /**
  * The RSA-SHA1 signature method uses the RSASSA-PKCS1-v1_5 signature algorithm as defined in
@@ -61,6 +57,7 @@ abstract class RsaSha1 extends SignatureMethod
         $privateKeyID = openssl_get_privatekey($cert);
 
         // Sign using the key
+        // TODO: Figure out what this does
         $ok = openssl_sign($baseString, $signature, $privateKeyID);
 
         // Release the key resource

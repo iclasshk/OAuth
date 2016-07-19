@@ -33,7 +33,7 @@ class OauthRequest
      * @param  \Symfony\Component\HttpFoundation\Request $symfonyRequest
      * @param  String $httpMethod Override of the HTTP Method
      * @param  String $httpUrl Override of the HTTP URL
-     * @param  Array $parameters An array of parameters
+     * @param  array $parameters An array of parameters
      * @return OauthRequest
      */
     public static function createFromRequest(
@@ -87,7 +87,7 @@ class OauthRequest
      * Create the OauthRequest object from globals
      * @param  String $httpMethod Override of the HTTP Method
      * @param  String $httpUrl Override of the HTTP Url
-     * @param  Array $parameters Array of parameters
+     * @param  array $parameters Array of parameters
      * @return OauthRequest
      */
     public static function createFromGlobals($httpMethod = null, $httpUrl = null, $parameters = null)
@@ -255,7 +255,7 @@ class OauthRequest
      */
     public function toUrl($noOAuthParameters = false)
     {
-        $postData = $this->toPostdata($noOAuthParameters);
+        $postData = $this->toPostData($noOAuthParameters);
         $out = $this->getNormalizedHttpUrl();
         if ($postData) {
             $out .= '?' . $postData;
@@ -299,7 +299,6 @@ class OauthRequest
             $out = 'Authorization: OAuth';
         }
 
-        $total = array();
         foreach ($this->parameters as $k => $v) {
             if (substr($k, 0, 5) != "oauth") {
                 continue;

@@ -83,7 +83,7 @@ class Util
     /**
      * Helper to try to sort out headers for people who aren't running apache
      * @param \Symfony\Component\HttpFoundation\Request $request
-     * @return Array array of headers
+     * @return array array of headers
      */
     public static function getHeaders(SymfonyRequest $request)
     {
@@ -145,7 +145,7 @@ class Util
      * array('a' => array('b','c'), 'd' => 'e')
      *
      * @param String $input
-     * @return Array
+     * @return array
      */
     public static function parseParameters($input)
     {
@@ -182,7 +182,7 @@ class Util
 
     /**
      * Takes an array of parameters and turn them into a sorted query string
-     * @param  Array $params
+     * @param array $params
      * @return String
      */
     public static function buildHttpQuery(Array $params)
