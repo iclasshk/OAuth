@@ -12,3 +12,8 @@ before_script:
   - php composer.phar install
 
 script: phpunit
+
+notifications:
+  email:
+    on_success: never
+    on_fail: change
