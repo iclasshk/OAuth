@@ -125,7 +125,7 @@ class RequestTest extends PHPUnit_Framework_TestCase
         try {
             $request->toHeader();
         } catch (JoakimKejser\OAuth\Exception $e) {
-            $this->assertTrue($e instanceOf JoakimKejser\OAuth\Exception\ArrayNotSupportedInHeaders);
+            $this->assertTrue($e instanceOf JoakimKejser\OAuth\Exception\ArrayNotSupportedInHeadersException);
         }
     }
 
