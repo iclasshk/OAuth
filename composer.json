@@ -1,5 +1,5 @@
 {
-  "name": "tonoman3g/oauth1-server",
+  "name": "tyteen4a03/oauth1-server",
   "authors": [
     {
       "name": "Joakim Kejser",
@@ -8,10 +8,14 @@
     {
       "name": "Hartono Sulaiman",
       "email": "hartono.sulaiman@gmail.com"
+    },
+    {
+      "name": "Timothy Choi",
+      "email": "tyteen4a03@thelastcode.io"
     }
   ],
   "require": {
-    "php": ">=5.4",
+    "php": ">=5.3",
     "symfony/http-foundation": "2.8.*|3.0.*"
   },
   "require-dev": {
