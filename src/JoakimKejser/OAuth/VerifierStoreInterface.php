@@ -19,14 +19,6 @@ interface VerifierStoreInterface
     public function storeVerifier($token, $verifier);
 
     /**
-     * Generate a verifier string.
-     *
-     * @param TokenInterface|string $token The token to generate a verifier for.
-     * @return string The verifier string.
-     */
-    public function generateVerifier($token);
-
-    /**
      * Verifies a verifier.
      *
      * @param TokenInterface|string $token The token to verify.
