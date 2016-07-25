@@ -381,9 +381,6 @@ class OauthRequest
      */
     private static function generateNonce()
     {
-        $mt = microtime();
-        $rand = mt_rand();
-
-        return md5($mt . $rand); // md5s look nicer than numbers
+        return sha1(random_bytes(32));
     }
 }
