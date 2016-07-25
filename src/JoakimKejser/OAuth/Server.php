@@ -37,22 +37,30 @@ class Server
     protected $tokenStore;
 
     /**
+     * @var VerifierStoreInterface
+     */
+    protected $verifierStore;
+
+    /**
      * Constructor
      * @param OauthRequest $request
      * @param ConsumerStoreInterface $consumerStore
      * @param NonceStoreInterface $nonceStore
      * @param TokenStoreInterface $tokenStore
+     * @param VerifierStoreInterface $verifierStore
      */
     public function __construct(
         OauthRequest $request,
         ConsumerStoreInterface $consumerStore,
         NonceStoreInterface $nonceStore,
-        TokenStoreInterface $tokenStore = null
+        TokenStoreInterface $tokenStore = null,
+        VerifierStoreInterface $verifierStore = null
     ) {
         $this->request = $request;
         $this->consumerStore = $consumerStore;
         $this->nonceStore = $nonceStore;
         $this->tokenStore = $tokenStore;
+        $this->verifierStore = $verifierStore;
     }
 
     /**
@@ -90,6 +98,23 @@ class Server
     }
 
     /**
+     * Fetches a request token response after authorization in a 3-legged OAuth request.
+     * This method assumes that the token has been verified and authorized.
+     *
+     * @param TokenInterface|string $token The token to generate a verifier for.
+     * @return string The verifier string.
+     */
+    public function fetchRequestVerifierResponse($token) {
+        if ($token instanceof TokenInterface) {
+            $token = $token->getKey();
+        }
+
+        $verifier = self::generateVerifier();
+        $this->verifierStore->storeVerifier($token, $verifier);
+        return $verifier;
+    }
+
+    /**
      * process an access_token request
      * @return array consumer, token, and verifier on success
      */
@@ -104,8 +129,9 @@ class Server
 
         $this->checkSignature($consumer, $token);
 
-        // Rev A change
+        // Verify verifier (for OAuth 1.0a compliance)
         $verifier = $this->request->getParameter('oauth_verifier');
+        $this->checkVerifier($token, $verifier);
         $newToken = $this->tokenStore->newAccessToken($token, $consumer, $verifier);
 
         return array($consumer, $newToken, $verifier);
@@ -306,5 +332,28 @@ class Server
         if ($found) {
             throw new Exception\NonceAlreadyUsedException();
         }
+    }
+
+    /**
+     * Checks a token verifier against the token verifier store.
+     *
+     * @param TokenInterface $token
+     * @param string $verifier
+     * @return void
+     * @throws Exception\VerifierMismatchException
+     */
+    private function checkVerifier(TokenInterface $token, $verifier) {
+        if (!$this->verifierStore->verify($token, $verifier)) {
+            throw new Exception\VerifierMismatchException();
+        }
+    }
+
+    /**
+     * Generates a verifier string.
+     *
+     * @return string The verifier string.
+     */
+    private static function generateVerifier() {
+        return sha1(random_bytes(32));
     }
 }
