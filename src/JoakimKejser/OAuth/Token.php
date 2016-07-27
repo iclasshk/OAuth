@@ -2,17 +2,24 @@
 namespace JoakimKejser\OAuth;
 
 class Token implements TokenInterface {
-    private $key;
+    /**
+     * @var string The token.
+     */
+    private $token;
+
+    /**
+     * @var string The token secret.
+     */
     private $secret;
 
     /**
      * Token constructor.
-     * @param $key string The token key.
+     * @param $token string The token key.
      * @param $secret string The token secret.
      */
-    public function __construct($key, $secret)
+    public function __construct($token, $secret)
     {
-        $this->key = $key;
+        $this->token = $token;
         $this->secret = $secret;
     }
 
@@ -23,7 +30,7 @@ class Token implements TokenInterface {
     public function toString()
     {
         return "oauth_token=" .
-        Util::urlencodeRfc3986($this->key) .
+        Util::urlencodeRfc3986($this->token) .
         "&oauth_token_secret=" .
         Util::urlencodeRfc3986($this->secret);
     }
@@ -33,15 +40,14 @@ class Token implements TokenInterface {
         return $this->toString();
     }
 
-
     /**
-     * Returns the token key.
+     * Returns the token string.
      *
      * @return string
      */
-    public function getKey()
+    public function getToken()
     {
-        return $this->key;
+        return $this->token;
     }
 
     /**
@@ -52,5 +58,14 @@ class Token implements TokenInterface {
     public function getSecret()
     {
         return $this->secret;
+    }
+
+    /**
+     * Returns the token string.
+     *
+     * @deprecated Use getToken() instead.
+     */
+    public function getKey() {
+        return $this->getToken();
     }
 }

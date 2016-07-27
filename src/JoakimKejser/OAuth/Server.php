@@ -106,7 +106,7 @@ class Server
      */
     public function fetchRequestVerifierResponse($token) {
         if ($token instanceof TokenInterface) {
-            $token = $token->getKey();
+            $token = $token->getToken();
         }
 
         $verifier = self::generateVerifier();

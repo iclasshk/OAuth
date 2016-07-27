@@ -120,7 +120,7 @@ class OauthRequest
         );
 
         if ($token) {
-            $defaults['oauth_token'] = $token->getKey();
+            $defaults['oauth_token'] = $token->getToken();
         }
 
         $parameters = array_merge($defaults, $parameters);

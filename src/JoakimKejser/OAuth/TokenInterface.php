@@ -10,7 +10,7 @@ interface TokenInterface
     /**
      * @return string
      */
-    public function getKey();
+    public function getToken();
 
     /**
      * @return string
