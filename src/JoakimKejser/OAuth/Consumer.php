@@ -95,7 +95,7 @@ class Consumer implements ConsumerInterface
     {
         // Check for URL sanity
         $callbackUrl = parse_url($callback);
-        if (!$callbackUrl) {
+        if (empty($callback) || !$callbackUrl) {
             return false; // malformed url
         }
 
