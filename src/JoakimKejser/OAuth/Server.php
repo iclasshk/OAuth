@@ -1,5 +1,6 @@
 <?php
 namespace JoakimKejser\OAuth;
+use JoakimKejser\OAuth\Exception\InvalidCallbackUrlException;
 
 /**
  * Class Server
@@ -42,25 +43,35 @@ class Server
     protected $verifierStore;
 
     /**
+     * Whether localhost is a valid callback domain.
+     *
+     * @var boolean
+     */
+    protected $localhostValid = false;
+
+    /**
      * Constructor
      * @param OauthRequest $request
      * @param ConsumerStoreInterface $consumerStore
      * @param NonceStoreInterface $nonceStore
      * @param TokenStoreInterface $tokenStore
      * @param VerifierStoreInterface $verifierStore
+     * @param boolean $localhostValid Whether localhost is a valid callback domain.
      */
     public function __construct(
         OauthRequest $request,
         ConsumerStoreInterface $consumerStore,
         NonceStoreInterface $nonceStore,
         TokenStoreInterface $tokenStore = null,
-        VerifierStoreInterface $verifierStore = null
+        VerifierStoreInterface $verifierStore = null,
+        $localhostValid = false
     ) {
         $this->request = $request;
         $this->consumerStore = $consumerStore;
         $this->nonceStore = $nonceStore;
         $this->tokenStore = $tokenStore;
         $this->verifierStore = $verifierStore;
+        $this->localhostValid = $localhostValid;
     }
 
     /**
@@ -88,10 +99,10 @@ class Server
         // no token required for the initial token request
         $token = null;
 
+        $callback = $this->request->getParameter('oauth_callback');
+        $this->checkCallbackUrl($consumer, $callback);
         $this->checkSignature($consumer, $token);
 
-        // Rev A change
-        $callback = $this->request->getParameter('oauth_callback');
         $newToken = $this->tokenStore->newRequestToken($consumer, $callback);
 
         return array($consumer, $newToken, $callback);
@@ -345,6 +356,19 @@ class Server
     private function checkVerifier(TokenInterface $token, $verifier) {
         if (!$this->verifierStore->verify($token, $verifier)) {
             throw new Exception\VerifierMismatchException();
+        }
+    }
+
+    /**
+     * Checks whether the callback URL provided is a valid URL for this consumer.
+     *
+     * @param ConsumerInterface $consumer
+     * @param $callbackUrl
+     * @throws InvalidCallbackUrlException
+     */
+    private function checkCallbackUrl(ConsumerInterface $consumer, $callbackUrl) {
+        if (!$consumer->checkUrl($callbackUrl, $this->localhostValid)) {
+            throw new Exception\InvalidCallbackUrlException();
         }
     }
 

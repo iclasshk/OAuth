@@ -207,7 +207,77 @@ class RequestTest extends PHPUnit_Framework_TestCase
 
         $this->assertFalse(array_key_exists('oauth_signature', $postDataParameters));
         $this->assertTrue(array_key_exists('foo', $postDataParameters));
+    }
 
+    public function testConsumerCallbackUrlMatching()
+    {
+        $consumer = new JoakimKejser\OAuth\Consumer('key', 'secret', 'http://example1.com/callback.php');
+        $this->assertTrue($consumer->checkUrl("http://example1.com/callback.php"));
+        $this->assertFalse($consumer->checkUrl("http://example1.com/not_callback.php"));
+
+        // Test incorrect scheme
+        $this->assertFalse($consumer->checkUrl("https://example1.com/callback.php"));
+
+        // Test localhost
+        $this->assertTrue($consumer->checkUrl("http://localhost/callback.php", true));
+        $this->assertTrue($consumer->checkUrl("http://127.0.0.1/callback.php", true));
+        $this->assertTrue($consumer->checkUrl("http://::1/callback.php", true));
+        $this->assertFalse($consumer->checkUrl("http://localhost/callback.php", false));
+        $this->assertFalse($consumer->checkUrl("http://127.0.0.1/callback.php", false));
+        $this->assertFalse($consumer->checkUrl("http://::1/callback.php", false));
+
+        // Test malformed URL
+        $this->assertFalse($consumer->checkUrl("notanurl"));
+        $this->assertFalse($consumer->checkUrl(""));
+    }
+
+    public function testConsumerCallbackUrlMatchingArray()
+    {
+        $consumer = new JoakimKejser\OAuth\Consumer('key', 'secret', array(
+            'http://example1.com/callback.php',
+            'http://example1.com/callback2.php',
+            'http://example2.com/not_really_callback.php',
+            'http://example2.com/another_callback.php'
+        ));
+        $this->assertTrue($consumer->checkUrl("http://example1.com/callback.php"));
+        $this->assertTrue($consumer->checkUrl("http://example1.com/callback2.php"));
+        $this->assertTrue($consumer->checkUrl("http://example2.com/not_really_callback.php"));
+        $this->assertTrue($consumer->checkUrl("http://example2.com/another_callback.php"));
+        $this->assertFalse($consumer->checkUrl("http://example1.com/not_callback.php"));
+
+        // Test incorrect scheme
+        $this->assertFalse($consumer->checkUrl("https://example1.com/callback.php"));
+
+        // Test localhost
+        $this->assertTrue($consumer->checkUrl("http://localhost/callback.php", true));
+        $this->assertTrue($consumer->checkUrl("http://127.0.0.1/callback.php", true));
+        $this->assertTrue($consumer->checkUrl('http://::1/callback.php', true));
+        $this->assertFalse($consumer->checkUrl("http://localhost/callback.php", false));
+        $this->assertFalse($consumer->checkUrl("http://127.0.0.1/callback.php", false));
+        $this->assertFalse($consumer->checkUrl("http://::1/callback.php", false));
+
+        // Test malformed URL
+        $this->assertFalse($consumer->checkUrl("notanurl"));
+        $this->assertFalse($consumer->checkUrl(""));
+    }
+
+    public function testConsumerCallbackUrlMatchingNothing() {
+        $consumer = new JoakimKejser\OAuth\Consumer('key', 'secret', array());
+        $this->assertTrue($consumer->checkUrl("http://example1.com/callback.php"));
+        $this->assertTrue($consumer->checkUrl("http://example2.com/another_callback.php"));
+        $this->assertTrue($consumer->checkUrl("http://example1.com/not_callback.php"));
+
+        // Test localhost
+        $this->assertTrue($consumer->checkUrl("http://localhost/callback.php", true));
+        $this->assertTrue($consumer->checkUrl("http://127.0.0.1/callback.php", true));
+        $this->assertTrue($consumer->checkUrl('http://::1/callback.php', true));
+        $this->assertFalse($consumer->checkUrl("http://localhost/callback.php", false));
+        $this->assertFalse($consumer->checkUrl("http://127.0.0.1/callback.php", false));
+        $this->assertFalse($consumer->checkUrl("http://::1/callback.php", false));
+
+        // Test malformed URL
+        $this->assertFalse($consumer->checkUrl("notanurl"));
+        $this->assertFalse($consumer->checkUrl(""));
     }
 
     protected function getRequest($httpMethod = null, $httpUrl = null, $parameters = null)
