@@ -20,12 +20,7 @@
     "paragonie/random_compat": "^1.3|^2.0"
   },
   "require-dev": {
-    "phpunit/phpunit": "~4.8",
-    "squizlabs/php_codesniffer": "*",
-    "sebastian/phpcpd": "*",
-    "phpmd/phpmd": "@stable",
-    "pdepend/pdepend": "2.1.0",
-    "mayflower/php-codebrowser": "~1.1"
+    "phpunit/phpunit": "~4.8"
   },
   "autoload": {
     "psr-0": {"JoakimKejser\\OAuth": "src/"}
