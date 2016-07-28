@@ -354,7 +354,7 @@ class Server
      * @throws Exception\VerifierMismatchException
      */
     private function checkVerifier(TokenInterface $token, $verifier) {
-        if (!$this->verifierStore->verify($token, $verifier)) {
+        if (!$this->verifierStore->verify($token->getToken(), $verifier)) {
             throw new Exception\VerifierMismatchException();
         }
     }
