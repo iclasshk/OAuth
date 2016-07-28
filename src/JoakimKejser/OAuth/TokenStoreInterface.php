@@ -40,5 +40,5 @@ interface TokenStoreInterface
      * @param TokenInterface $requestToken The access token to remove.
      * @return void
      */
-    public function removeAccessToken(TokenInterface $requestToken);
+    public function removeAccessToken(TokenInterface $accessToken);
 }
