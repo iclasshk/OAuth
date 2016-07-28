@@ -25,4 +25,20 @@ interface TokenStoreInterface
      * @return TokenInterface access token
      */
     public function newAccessToken(TokenInterface $requestToken, ConsumerInterface $consumer, $verifier = null);
+
+    /**
+     * Removes a request token.
+     *
+     * @param TokenInterface $requestToken The request token to remove.
+     * @return void
+     */
+    public function removeRequestToken(TokenInterface $requestToken);
+
+    /**
+     * Removes an access token.
+     *
+     * @param TokenInterface $requestToken The access token to remove.
+     * @return void
+     */
+    public function removeAccessToken(TokenInterface $requestToken);
 }
