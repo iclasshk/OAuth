@@ -126,10 +126,13 @@ class Server
     }
 
     /**
-     * process an access_token request
-     * @return array consumer, token, and verifier on success
+     * Processes an access token request.
+     *
+     * @param bool $removeToken Whether this method should also remove the request token from the token store.
+     * @param bool $removeVerifier Whether this method should also remove the verifier from the verifier store.
+     * @return array [Consumer, the access token, the verifier];
      */
-    public function fetchAccessToken()
+    public function fetchAccessToken($removeToken = false, $removeVerifier = false)
     {
         $this->getVersion();
 
@@ -144,6 +147,14 @@ class Server
         $verifier = $this->request->getParameter('oauth_verifier');
         $this->checkVerifier($token, $verifier);
         $newToken = $this->tokenStore->newAccessToken($token, $consumer, $verifier);
+
+        if ($removeToken) {
+            $this->tokenStore->removeRequestToken($token);
+        }
+
+        if ($removeVerifier) {
+            $this->verifierStore->removeVerifier($token, $verifier);
+        }
 
         return array($consumer, $newToken, $verifier);
     }
