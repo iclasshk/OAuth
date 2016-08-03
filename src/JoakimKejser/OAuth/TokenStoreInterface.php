@@ -21,10 +21,9 @@ interface TokenStoreInterface
     /**
      * @param TokenInterface $requestToken
      * @param ConsumerInterface $consumer
-     * @param null $verifier
      * @return TokenInterface access token
      */
-    public function newAccessToken(TokenInterface $requestToken, ConsumerInterface $consumer, $verifier = null);
+    public function newAccessToken(TokenInterface $requestToken, ConsumerInterface $consumer);
 
     /**
      * Removes a request token.
