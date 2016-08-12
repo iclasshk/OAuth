@@ -14,7 +14,7 @@
       "email": "tyteen4a03@thelastcode.io"
     }
   ],
-  "version": "1.0.0",
+  "version": "0.3.0",
   "require": {
     "php": ">=5.3",
     "symfony/http-foundation": "2.8.*|3.0.*",
